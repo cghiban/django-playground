@@ -1,26 +1,26 @@
-#!python
-
 from Bio import SeqIO
 import re
 from multiprocessing.pool import Pool
-import sys
 
 
-def search_batch(pat, start:int, seq:str)->set:
+def search_batch(pat, start:int, seq:str, include_match:bool=False)->set:
     out = list()
     it = pat.finditer(seq)
     for m in it:
         a, b = m.span()
-        a += start # we'll need the coords of the original sequence
-        b += start
-        out.append((a, b))
+        # we'll need the coords of the original sequence
+        if include_match:
+            out.append((a+start, b+start, seq[a:b]))
+        else:
+            out.append((a+start, b+start))
     return set(out)
 
 class RESearch:
-    def __init__(self, filepath, batch_size=None, threads=None):
+    def __init__(self, filepath, batch_size=None, threads=None, include_match:bool=False):
         self.filepath=filepath
         self.batch_size = 50_000
         self.threads = 8
+        self.include_match = include_match
         if batch_size is not None:
             self.batch_size=batch_size
         if threads is not None:
@@ -49,7 +49,7 @@ class RESearch:
             if end > total_len:
                 end = total_len
             
-            batches.append((pat, start, str(s[start:end].seq)))
+            batches.append((pat, start, str(s[start:end].seq), self.include_match))
 
         uniq_matches = set()
         pool = Pool(processes=self.threads)

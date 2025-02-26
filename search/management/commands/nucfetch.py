@@ -63,7 +63,7 @@ async def _download(session, nucc):
     return filename, bytes_written
 
 class Command(BaseCommand):
-    help = "fetches nucleotide by gid/refid and stores it locally in FASTA format"
+    help = "fetches nucleotide data by gid/refid and stores it locally in FASTA format"
 
     def add_arguments(self, parser):
         parser.add_argument("nucc", nargs=1, type=str)
