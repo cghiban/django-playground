@@ -27,6 +27,10 @@ def search(request):
     query  = get_data.get("q")
     data_file  = get_data.get("f")
 
+    # extra check to prevent path traversal
+    if data_file.find("..") != -1:
+        return HttpResponse("invalid request. file not found")
+
     if query is None or data_file is None:
         return HttpResponse("invalid request. query and/or file are missing")
     query = query.strip()
