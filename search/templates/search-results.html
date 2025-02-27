@@ -1,0 +1,20 @@
+<div>
+    <div>Search in <em>{{f}}</em></div>
+    <form action="/search/search" method="get">
+        <input type="text" name="q" id="q" value="{{q}}">
+        <input type="hidden" name="f" value="{{f}}"">
+        <input type="submit" value="Search">
+    </form>
+    <div>&gt;{{ name }}: Found {{matches|length}} match(es)</div>
+{% if matches %}
+    {% if matches|length > 50  %}
+    <div>Too many results to display. Displaying top 50 matches</div>
+    {% endif %}
+<pre style="margin-left: 20px;">
+{% for m in matches|slice:"50" %}{{m.0}}..{{m.1}} <a href="https://www.ncbi.nlm.nih.gov/nuccore/NC_004718.3?report=graph&v={{m.0}}:{{m.1}}&mk={{m.0}}|Marker%201|FF0000" target="_blank" title="view in browser">⇗</a>
+{% endfor %}
+</pre>
+{% else %}
+No matches found
+{% endif %}
+</div>
