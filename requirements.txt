@@ -1,2 +1,5 @@
+asgiref==3.8.1
 biopython==1.85
+Django==5.1.6
 numpy==2.2.3
+sqlparse==0.5.3
