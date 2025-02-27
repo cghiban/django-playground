@@ -1,0 +1,22 @@
+<div class="left">
+    <div>Choose a file to search</div>
+{% if data_files %}
+    <ul>
+    {% for df in data_files %}
+        <li><a href="/search/?f={{ df }}">{{ df }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No data files are available.</p>
+{% endif %}
+</div>
+<div class="right">
+    {% if selected %}
+        <div>Search in <em>{{selected}}</em></div>
+        <form action="/search/search" method="get">
+            <input type="text" name="q" id="q">
+            <input type="hidden" name="f" value="{{selected}}"">
+            <input type="submit" value="Search">
+        </form>
+    {% endif %}
+</div>
