@@ -1,7 +1,11 @@
 from Bio import SeqIO
 import re
-from multiprocessing.pool import Pool
 
+# from multiprocessing.pool import Pool
+
+# use celery's implementation, see https://stackoverflow.com/a/61676421
+# but slower than multiprocessing's Pool https://github.com/celery/billiard/issues/336
+from billiard.pool import Pool
 
 def search_batch(pat, start:int, seq:str, include_match:bool=False)->set:
     out = list()
@@ -55,11 +59,16 @@ class RESearch:
         pool = Pool(processes=self.threads)
         results = pool.starmap(search_batch, batches)
 
+        pool.close()
+        pool.join()
+
         for r in results:
             uniq_matches.update(r)
+
+        name = f"search for {pattern} in {s.id}"
         
         return {
-            "name": s.id,
+            "name": name,
             "matches": sorted(uniq_matches),
             "matches_count": len(uniq_matches),
         }

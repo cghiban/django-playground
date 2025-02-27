@@ -39,7 +39,7 @@ class SearchTestCase(TestCase):
         self.assertEqual(out["matches_count"], 0)
         
         self.assertTrue("name" in out)
-        self.assertEqual(out["name"], "s2", "seq id matches")
+        self.assertTrue("s2" in out["name"], "seq id matches")
         
         self.assertTrue("matches" in out)
         self.assertEqual(len(out["matches"]), 0, "we have no matches")
