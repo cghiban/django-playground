@@ -1,4 +1,4 @@
-# project
+# Django playground
 
 Create a virtualenv and activate it:
 ```shell
@@ -28,9 +28,11 @@ $ python manage.py nucsearch GATACA  30271926.fa
 29449..29455	GATACA
 ```
 
-Steps to run the server:
+### Steps to run the server
+
+Start redis server:
 ```shell
-$ python manage.py runserver
+$ docker run -d --name redis-stack -p 6379:6379 redis/redis-stack-server:latest
 ```
 
 Run the celery worker(s):
