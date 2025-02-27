@@ -1,16 +1,49 @@
 # project
 
+Create a virtualenv and activate it:
+```shell
+$ python3.12 -m venv venv
+$ source venv/bin/activate 
+```
+
+Install the requirements:
+```shell
+$ pip install --upgrade pip 
+$ pip install -r requirements.txt
+```
+
+Fetch some data:
+```shell
+$ mkdir -p data
+$ python manage.py nucfetch 30271926
+```
+
+Run a search:
+```shell
+$ python manage.py nucsearch GATACA  30271926.fa
+>search for GATACA in NC_004718.3. Found 4 matches
+13787..13793	GATACA
+18482..18488	GATACA
+25759..25765	GATACA
+29449..29455	GATACA
+```
+
 Steps to run the server:
-
-Run the celery worker(s)
 ```shell
-python -m celery -A nucsearch worker -l info
+$ python manage.py runserver
 ```
 
-Run the server
+Run the celery worker(s):
 ```shell
-python manage.py runserver
+$ python -m celery -A nucsearch worker -l info
 ```
+
+Run the server in a separate terminal:
+```shell
+$ python manage.py runserver
+```
+
+Open the browser to http://127.0.0.1:8000/search/
 
 Changelog:
 * added celery to perform the searches as background jobs
@@ -23,10 +56,7 @@ Changelog:
 
 #### TODO:
 
-    [x] - create tool to fetch data from NCBI
-    [x] - create tool to perform regexp searches
     [] - compress storred data (gzip) and handle searches from gzipped FASTA files
-    [x] - make use of celery w/ redis for search
     [] - add a SearchForm and use this instead of what we do in search::views::search
     [] - refactor the search to make use of some Ajaxy calls
     [] - save search results, on disk, and link to them as text files
