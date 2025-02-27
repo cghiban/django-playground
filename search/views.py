@@ -70,11 +70,11 @@ def search_results(request):
     data_file  = get_data.get("f")
     task_id = get_data.get("t").strip()
     if task_id == "":
-        return HttpResponse("invalid request. missing task id", status_code=400)
+        return HttpResponse("invalid request. missing task id")
 
     task_result = AsyncResult(task_id)
 
-    if task_result.ready():
+    if task_result is not None and task_result.ready():
         result = task_result.result
         context = {
             "q": query,
@@ -85,4 +85,6 @@ def search_results(request):
             "name": result.get("name"),
         }
         return render(request, "search-results.html", context)
-
+    else:
+        print(f"got this task {task_result}")
+        return HttpResponse("invalid request. unknown job id")

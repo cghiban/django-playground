@@ -1,5 +1,15 @@
 # Django playground
 
+Clone the code, and use docker compose to build and start the app:
+
+```shell
+docker-compose up -d --build 
+```
+
+then open the browser to http://127.0.0.1:8000/search/
+
+or follow these steps manully:
+
 Create a virtualenv and activate it:
 ```shell
 $ python3.12 -m venv venv
@@ -32,7 +42,7 @@ $ python manage.py nucsearch GATACA  30271926.fa
 
 Start redis server:
 ```shell
-$ docker run -d --name redis-stack -p 6379:6379 redis/redis-stack-server:latest
+$ docker run -d --name redis -p 6379:6379 redis:latest
 ```
 
 Run the celery worker(s):
@@ -48,6 +58,7 @@ $ python manage.py runserver
 Open the browser to http://127.0.0.1:8000/search/
 
 Changelog:
+* dockerized app
 * added celery to perform the searches as background jobs
 * added tool for regexp searching through the stored files (`manage.py nucsearch <pattern> <file>`)
 * added tool for fetching nucleodide data from NCBI (`manage.py nucfetch <id>`)
@@ -58,6 +69,7 @@ Changelog:
 
 #### TODO:
 
+    [] - add more tests, test the views as well
     [] - compress storred data (gzip) and handle searches from gzipped FASTA files
     [] - add a SearchForm and use this instead of what we do in search::views::search
     [] - refactor the search to make use of some Ajaxy calls
@@ -66,7 +78,6 @@ Changelog:
     [] - fix the html templates
     [] - modify the tools to make use of the celery task
     [] - add new task for fetching the data (we can then download data from the browser)
-    [] - dockerize app
-    [] - make use of docker compose to run the server and workers
+    [] - use RabitMQ as a brocker instead of Redis
 
 
