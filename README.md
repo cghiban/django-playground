@@ -79,5 +79,8 @@ Changelog:
     [] - modify the tools to make use of the celery task
     [] - add new task for fetching the data (we can then download data from the browser)
     [] - use RabitMQ as a brocker instead of Redis
+    [] - put app behind Nginx
+    [] - run app with gunicorn
+    [] - investigate why billiard is so slow/replace Celery with something else (i.e. dramatiq)
 
 
